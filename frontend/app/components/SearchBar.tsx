@@ -155,9 +155,18 @@ export default function SearchBar() {
     };
     recognition.onerror = (event: any) => {
       setListening(false);
-      if (event.error !== "aborted" && event.error !== "no-speech") {
-        showToast(`音声認識エラー: ${event.error}`);
-      }
+      if (event.error === "aborted" || event.error === "no-speech") return;
+      const messages: Record<string, string> = {
+        "not-allowed":
+          "マイクの使用が許可されていません。ブラウザのアドレスバー左のアイコンから許可してください",
+        "service-not-allowed":
+          "OS側でマイクが無効です。Windows 設定 → プライバシー → マイク を確認してください",
+        "audio-capture": "マイクが見つかりません。デバイス接続を確認してください",
+        network: "ネットワークエラーで音声認識サーバーに接続できませんでした",
+        "language-not-supported":
+          "このブラウザは日本語の音声認識に対応していません",
+      };
+      showToast(messages[event.error] || `音声認識エラー: ${event.error}`);
     };
     recognitionRef.current = recognition;
   }, [submitPrompt, showToast]);
