@@ -25,11 +25,9 @@ export default function RootLayout({
             <div className="flex min-w-0 flex-1 flex-col">
               <Header />
               <main className="flex-1 overflow-auto bg-[#eef2f7] p-4">
-                <div className="mb-3">
-                  <SearchBar />
-                </div>
                 {children}
               </main>
+              <SearchBar />
             </div>
           </div>
           <Toast />
